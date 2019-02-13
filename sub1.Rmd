@@ -1,0 +1,53 @@
+---
+title: "Fiji earthquakes"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: rows
+    vertical_layout: fill
+---
+
+```{r setup, include=FALSE}
+library(flexdashboard)
+library(dplyr)
+
+quakes$class <- factor(floor(quakes$mag), labels = c("Light", "Moderate", "Strong"))
+
+set.seed(10101)
+quakes <- quakes %>% sample_n(200)
+```
+
+Row 1
+-----------------------------------------------------------------------
+
+### Map
+
+```{r}
+library(leaflet)
+pal <- colorFactor(c("#1f77bf", "#ff7f0e", "#2ca02c"), quakes$class)
+leaflet(quakes) %>% addTiles() %>% addCircles(lng = ~long, lat = ~lat,
+  radius = ~mag * 7000, weight = 1, fillOpacity = 0.8,
+  label = ~as.character(mag), color = ~pal(class)
+)
+```
+
+### Scatter
+
+```{r}
+library(plotly)
+plot_ly(quakes) %>%
+  add_markers(x = ~depth, y = ~stations, color = ~class, mode = "markers") %>%
+  layout(dragmode = "select")
+```
+
+Row 2
+-----------------------------------------------------------------------
+
+### Table
+
+```{r}
+library(DT)
+datatable(quakes, rownames = FALSE, extensions = 'Scroller', options = list(
+  scrollY = 200,
+  scroller = TRUE
+))
+```

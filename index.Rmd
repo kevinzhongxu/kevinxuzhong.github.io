@@ -1,0 +1,96 @@
+---
+title: "Introduction to R"
+author: "Kevin Xu ZHONG"
+date: "version `r format(Sys.time(), '%B %d, %Y')`"
+output:
+  html_document:
+    toc: yes
+    toc_float:
+      collapsed: yes
+  pdf_document:
+    toc: yes
+    latex_engine: xelatex
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+# Overview
+
+In this workshop, we introduce you to R and RStudio at the beginner level. This condensed 2-hour workshop is meant to get you started in R and acts as a pre-requisite for our more advanced workshops. In it, we cover:
+
+
+* R and RStudio
+    + RStudio projects
+    + R scripts
+    + Installing packages
+
+* Reading in data as a data frame
+* Vectors, single values, and data types
+* Basic data visualization
+* The help function
+
+We will do all of our work in [RStudio](www.rstudio.com). RStudio is an integrated development and analysis environment for R that brings a number of conveniences over using R in a terminal or other editing environments. You should have both R and RStudio installed, as described in the [setup instructions](http://asda.stat.ubc.ca/workshops/2019-02_Ecoscope_reproducible/setup.html).
+
+
+# A Tour of RStudio
+
+When you start RStudio, you will see something like the following window appear:
+
+![](/home/kevin/Desktop/Ecoscope/20190205-reproducible/rmd/dynamic_R_challenge/rstudio.png)
+
+
+# Getting started
+
+## Loading data into an R data frame
+
+We will store the data as an object named dat using the assignment operator <-, so that we can re-use it in our analysis.
+
+
+```{r}
+# read the data and save it as an object
+dat <- read.csv("https://raw.githubusercontent.com/EDUCE-UBC/workshops_data_science/master/reproducible_research/data/data.csv")
+
+```
+
+Now we can refer to the data frame as dat like so.
+
+
+```{r}
+dat
+```
+
+## Data visualization with quickplot
+
+There are many data visualization options in R. The most popular plotting package is ggplot2, which is capable of creating publication quality figures.
+
+Let’s create a simple depth profile (scatterplot) of the Oxygen concentrations with colors indicating the Season that the sample was collected. We will use the quickplot function that we loaded earlier when we installed ggplot2.
+
+```{r,message=FALSE,warning=FALSE,echo=FALSE}
+# load packages
+library(tidyverse)
+quickplot(data=dat,
+                     x=Depth_m, 
+                     y=O2_uM, 
+                     colour=Season, 
+                     main="Saanich Inlet: Seasonal oxygen depth profile",
+                     xlab = "Depth (m)",
+                     ylab = "Oxygen (uM)")
+
+```
+
+## Internal link
+
+You can find my [Shiny app](https://kevinzhongxu.github.io/main/sub1.html) here
+
+
+## Shiny test link
+
+You can find my [Shiny test app](https://kevinxuzhong.shinyapps.io/test/) here
+
+
+
+
